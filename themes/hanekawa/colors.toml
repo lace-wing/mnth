@@ -1,0 +1,24 @@
+black = '#000000'
+white = '#ffffff'
+grey  = '#b8c3d0' # neko pajamas
+
+[ansi.standard]
+black   = '#232336' # neko white hair
+red     = '#d37562' # owari 2 collar
+green   = '#768b65' # owari 2 coat
+yellow  = '#dabb5a' # neko black pupil
+blue    = '#6396cc' # neko black shacket
+magenta = '#665b75' # bake uniform dress
+cyan    = '#deaabb' # bake uniform shirt
+white   = '#e3e3e3' # neko black hair
+
+[ansi.bright]
+black   = '#3b3844' # bake white hair
+red     = '#bb4045' # neko uniform shirt tipping
+green   = '#9dc1a1' # neko black shirt
+yellow  = '#f7ef9f' # bake x-barrette
+blue    = '#b8d6e6' # neko white dress
+magenta = '#6a50a6' # neko white iris
+cyan    = '#e5cae0' # neko black pinna
+white   = '#f5f5f5' # owari 2 hair white
+
