@@ -1,9 +1,9 @@
-black = '#000000'
-white = '#ffffff'
+black = '#232329'
+white = '#e3e3e3'
 grey  = '#b8c3d0' # neko pajamas
 
 [ansi.standard]
-black   = '#232336' # neko white hair
+black   = '#232329' # neko white hair
 red     = '#d37562' # owari 2 collar
 green   = '#768b65' # owari 2 coat
 yellow  = '#dabb5a' # neko black pupil
