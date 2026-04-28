@@ -7,7 +7,7 @@ export def main [job: string@name_jobs, theme?: string@name_themes, ...targets: 
     'clean' => { clean }
     'make' => {
       if ($theme | is-empty) { error make "No theme to make!" }
-      $targets | each { make_target $theme $in }
+      $targets | each {|t| nu ($TARGET_DIR | path join $"($t).nu") $theme }
     }
   }
 }
@@ -31,5 +31,3 @@ def name_targets []: nothing -> list<string> {
   ls $TARGET_DIR --short-names | where type == file | get name | each {$in | split row '.' | drop 1 | str join '.' }
 }
 
-
-def make_target [theme: string, target: string]: nothing -> string { nu ($TARGET_DIR | path join $"($target).nu") $theme }

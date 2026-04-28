@@ -1,9 +1,9 @@
 use ../base.nu *
 
+const TARGET = 'ghostty'
 
 def main [theme: string]: nothing -> string {
-  let target = 'ghostty'
-  let out_file = get_out_file $theme $target ($theme | str capitalize)
+  let out_file = get_out_file $theme $TARGET ($theme | str capitalize)
   if (is_to_date $out_file (get_colors_file $theme)) {
     return $out_file
   }
