@@ -8,7 +8,7 @@ export const OUTPUT_DIR = $ROOT_DIR | path join 'out'
 
 export const CACHE_DIR = $ROOT_DIR | path join 'cache'
 
-export def "rgb_hex2ints" []: string -> list<int> {
+export def rgb_hex2ints []: string -> list<int> {
   $in | str replace '#' '' | split chars | chunks 2 | each { str join | decode hex | into int }
 }
 
