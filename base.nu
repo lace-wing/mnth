@@ -27,7 +27,7 @@ export def get_out_file [theme: string, target: string, file: string]: nothing -
 export def get_colors_cache [theme: string]: nothing -> string {
   [
     $CACHE_DIR
-    $"colors.($theme).nuon"
+    $"colors.($theme).msgpack"
   ] | path join
 }
 
@@ -35,7 +35,7 @@ export def get_colors [theme: string]: nothing -> record {
   let colors_file = get_colors_file $theme
   let colors_cache = get_colors_cache $theme
   if (is_to_date $colors_cache $colors_file) {
-    return (%open $colors_cache)
+    return (%open $colors_cache | from msgpack)
   }
   let colors = (%open $colors_file)
   let ansi_ordering = [
@@ -53,6 +53,6 @@ export def get_colors [theme: string]: nothing -> record {
   let ansi_bright = $ansi_ordering | update index {|r| $r.index + $bright_offset} | update item {|r| $colors.ansi.bright | get $r.item}
   let result = $colors | update ansi ($colors.ansi | insert indexed ($ansi_standard ++ $ansi_bright))
   mkpr $colors_cache
-  $result | to nuon --raw | save -f $colors_cache
+  $result | to msgpack | save -f $colors_cache
   return $result
 }
