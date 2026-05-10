@@ -17,13 +17,15 @@ export def main [] {
 export def make [
   theme: string@list_themes, # Theme name
   ...targets: string@list_targets # Target names, leave empty for all targets
+  --new(-n) # If to ignore cache and run everything
 ]: nothing -> table<target: string, path: string> {
   assert ($theme in (list_themes)) $"Unknown theme: ($theme)"
   let all_targets = list_targets
   let targets = if ($targets | is-empty) { $all_targets } else {
     $targets | each { assert ($in in $all_targets) $"Unknown target: ($in)"; $in }
   }
-  $targets | each {|t| nu ($TARGET_DIR | path join $"($t).nu") $theme | {target: $t, path: $in} }
+
+  $targets | each {|t| nu ($TARGET_DIR | path join $"($t).nu") --new=($new) $theme | {target: $t, path: $in} }
 }
 
 export def clean []: nothing -> nothing {
@@ -36,6 +38,6 @@ def list_themes []: nothing -> list<string> {
 }
 
 def list_targets [spans?: list<string>]: nothing -> list<string> {
-  ls $TARGET_DIR --short-names | where type == file | get name | each {$in | split row '.' | drop 1 | str join '.' } | where { $in not-in $spans }
+  ls $TARGET_DIR --short-names | where type == file | get name | each {$in | split row '.' | drop 1 | str join '.' } | where { ($spans | is-empty) or ($in not-in $spans) }
 }
 

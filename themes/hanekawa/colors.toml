@@ -1,24 +1,33 @@
-black = '#151508'
-white = '#e3e3e3'
-grey  = '#b8c3d0' # neko pajamas
+### Color sources ###
+# - CR neko white hero
+# - Char design booklets
+# adjusted
+
+black  = '#040203'
+dark   = '#090508'
+somber = '#2e202a' #352832
+dim    = '#575460'
+soft   = '#e3e2e3'
+light  = '#f9fafe'
+white  = '#fffdfe'
 
 [ansi.standard]
-black   = '#232329' # neko white hair
-red     = '#d37562' # owari 2 collar
-green   = '#768b65' # owari 2 coat
-yellow  = '#dabb5a' # neko black pupil
-blue    = '#6396cc' # neko black shacket
-magenta = '#665b75' # bake uniform dress
-cyan    = '#deaabb' # bake uniform shirt
-white   = '#e3e3e3' # neko black hair
+black   = '#232329'
+red     = '#bf6a73'
+green   = '#768b65'
+yellow  = '#dabb5a'
+blue    = '#6396cc'
+magenta = '#8681ad'
+cyan    = '#deaabb'
+white   = '#e3e2e3'
 
 [ansi.bright]
-black   = '#3b3844' # bake white hair
-red     = '#bb4045' # neko uniform shirt tipping
-green   = '#9dc1a1' # neko black shirt
-yellow  = '#f7ef9f' # bake x-barrette
-blue    = '#b8d6e6' # neko white dress
-magenta = '#6a50a6' # neko white iris
-cyan    = '#e5cae0' # neko black pinna
-white   = '#f5f5f5' # owari 2 hair white
+black   = '#3b3844' #5c5866
+red     = '#bb4045'
+green   = '#9dc1a1'
+yellow  = '#f7ef9f' #f4e9aa
+blue    = '#b8d6e6'
+magenta = '#b48dbb'
+cyan    = '#e5cae0'
+white   = '#f5f3f5'
 

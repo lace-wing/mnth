@@ -2,19 +2,20 @@ use ../base.nu *
 
 const TARGET = 'ghostty'
 
-def main [theme: string]: nothing -> string {
+def main [theme: string, --new(-n)]: nothing -> string {
   let out_file = get_out_file $theme $TARGET ($theme | str capitalize)
-  if (is_to_date $out_file (get_colors_file $theme)) {
+  if not $new and (is_to_date $out_file (get_colors_file $theme)) {
     return $out_file
   }
-  let colors = get_colors $theme
+  let colors = %open (get_colors_cache $theme) | from msgpack
+
   let layers = {
-    background: $colors.black
-    foreground: $colors.white
-    "cursor-color": $colors.grey
+    background: $colors.dark
+    foreground: $colors.soft
+    "cursor-color": $colors.white
     "cursor-text": $colors.black
-    "selection-background": $colors.grey
-    "selection-foreground": $colors.black
+    "selection-background": $colors.somber
+    "selection-foreground": $colors.light
   } | items {|k, v| $"($k) = ($v)"}
   let palette = $colors.ansi.indexed | each {|r| $"palette = ($r.index)=($r.item)"}
   let text = $palette ++ $layers
