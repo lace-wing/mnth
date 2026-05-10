@@ -25,6 +25,8 @@ export def make [
     $targets | each { assert ($in in $all_targets) $"Unknown target: ($in)"; $in }
   }
 
+  get_colors --new=($new) $theme | ignore
+
   $targets | each {|t| nu ($TARGET_DIR | path join $"($t).nu") --new=($new) $theme | {target: $t, path: $in} }
 }
 
