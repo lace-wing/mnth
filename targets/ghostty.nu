@@ -7,7 +7,7 @@ def main [theme: string, --new(-n)]: nothing -> string {
   if not $new and (is_to_date $out_file (get_colors_file $theme)) {
     return $out_file
   }
-  let colors = %open (get_colors_cache $theme) | from msgpack
+  let colors = get_colors --new=($new) $theme
 
   let layers = {
     background: $colors.dark
