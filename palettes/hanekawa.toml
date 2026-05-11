@@ -23,7 +23,7 @@ white   = '#e3e2e3'
 
 [ansi.bright]
 black   = '#3b3844' #5c5866
-red     = '#bb4045'
+red     = '#bb4045' #c94f5b
 green   = '#9dc1a1'
 yellow  = '#f7ef9f' #f4e9aa
 blue    = '#b8d6e6'
