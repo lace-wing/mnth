@@ -40,13 +40,4 @@ defmodule Mnth.Theme do
 
     build(palette, method, target, name, polarity)
   end
-
-  @spec write(res :: Target.render_result(), dir :: Path.t()) :: :ok | {:error, term()}
-  def write(res, dir) do
-    if not File.dir?(dir) do
-      raise ArgumentError, "#{dir} is not a directory!"
-    end
-
-    Enum.each(res, fn {rel_path, text} -> File.write!(Path.join(dir, rel_path), text) end)
-  end
 end

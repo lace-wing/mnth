@@ -1,4 +1,4 @@
-defmodule Mnth.Target.Ghostty do
+defmodule Mnth.Targets.Ghostty do
   @moduledoc """
   Target definition for Ghostty.
   """

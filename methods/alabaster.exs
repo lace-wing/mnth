@@ -1,4 +1,4 @@
-defmodule Mnth.Method.Alabaster do
+defmodule Mnth.Methods.Alabaster do
   @behaviour Mnth.Method
 
   alias Mnth.{Palette, Roles}

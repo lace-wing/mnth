@@ -1,5 +1,5 @@
 defmodule MnthTest do
-  alias Mnth.{Method, Target, Theme}
+  alias Mnth.{Method, Targets, Theme}
   use ExUnit.Case
   doctest Mnth
 
@@ -30,9 +30,9 @@ defmodule MnthTest do
         |> then(fn attrs -> Method in attrs end)
       end)
 
-    res = Theme.build(p_hanekawa, m_alabaster, Target.Ghostty, "hanekawa", :dark)
+    res = Theme.build(p_hanekawa, m_alabaster, Targets.Ghostty, "hanekawa", :dark)
 
-    assert Theme.write(res, tmp_dir) == :ok
+    assert Mnth.write(res, tmp_dir) == :ok
 
     assert File.read!("test/expected/ghostty/Hanekawa") == File.read!(Path.join(tmp_dir, "Hanekawa"))
   end
