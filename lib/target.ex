@@ -10,6 +10,16 @@ defmodule Mnth.Target do
           optional(Path.t()) => String.t()
         }
 
-  @doc "Render the target."
-  @callback render(r :: Mnth.Roles.t(), name :: String.t()) :: render_result()
+  @doc """
+  Render the target.
+
+  ## Parameters
+  - roles: Roles.
+  - name: Name of a theme.
+  - opts: Options.
+
+  ## Returns
+  A map from relative file path to file content.
+  """
+  @callback render(roles :: Mnth.Roles.t(), name :: String.t(), opts :: keyword()) :: render_result()
 end

@@ -1,13 +1,30 @@
-defmodule Mnth.Methods.Alabaster do
+defmodule Mnth.Builtin.Methods.Alabaster do
+  @moduledoc """
+  The Alabaster method.
+
+  # Source
+  The Alabaster theme by [Nikita Prokopov (tonsky)](https://github.com/tonsky) and its ports.
+  - <https://github.com/tonsky/sublime-scheme-alabaster>
+  - <https://github.com/dchinmay2/alabaster.nvim>
+  """
+
   @behaviour Mnth.Method
 
-  alias Mnth.{Palette, Roles}
+  alias Mnth.{Palette, Roles, Method}
 
   @impl true
   def polarities, do: [:dark, :light]
 
   @impl true
-  def apply(:dark, %Palette{} = p) do
+  @spec apply(Palette.t(), [polarity: Method.pole()]) :: Roles.t()
+  def apply(%Palette{} = p, opts \\ []) do
+    opts
+    |> Keyword.get(:polarity, :dark)
+    |> ui_roles(p)
+    |> merge_nonnil(common_roles(p))
+  end
+
+  defp ui_roles(:dark, %Palette{} = p) do
     %Roles{
       bg_muted: p.black,
       bg_base: p.dark,
@@ -17,11 +34,9 @@ defmodule Mnth.Methods.Alabaster do
       ui_lifted: p.light,
       ui_popped: p.white
     }
-    |> merge_nonnil(common_roles(p))
   end
 
-  @impl true
-  def apply(:light, %Palette{} = p) do
+  defp ui_roles(:light, %Palette{} = p) do
     %Roles{
       bg_muted: p.soft,
       bg_base: p.light,
@@ -31,7 +46,6 @@ defmodule Mnth.Methods.Alabaster do
       ui_lifted: p.dark,
       ui_popped: p.black
     }
-    |> merge_nonnil(common_roles(p))
   end
 
   defp common_roles(%Palette{} = p),
@@ -65,5 +79,6 @@ defmodule Mnth.Methods.Alabaster do
     }
   end
 
-  defp merge_nonnil(map1, map2), do: Map.merge(map1, map2, fn _key, val1, val2 -> val1 || val2 end)
+  defp merge_nonnil(map1, map2),
+    do: Map.merge(map1, map2, fn _key, val1, val2 -> val1 || val2 end)
 end

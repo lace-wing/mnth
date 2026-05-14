@@ -37,6 +37,26 @@ defmodule Mnth.Palette do
           unquote_splicing(Enum.map(@colors, fn k -> {k, quote(do: String.t())} end))
         }
 
+  @doc """
+  ## Returns
+  The palette.
+  """
+  @callback get() :: __MODULE__.t()
+
+  @doc """
+  Get palette from a TOML file.
+
+  ## Parameters
+  - file: The TOML file.
+
+  ## Return
+  The palette.
+  """
+  @spec from_toml(file :: Path.t()) :: __MODULE__.t()
+  def from_toml(_file) do
+    raise "not implemented"
+  end
+
   defmodule Xterm do
     @moduledoc """
     Xterm palette definition and helpers.

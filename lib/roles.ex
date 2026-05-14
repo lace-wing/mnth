@@ -56,12 +56,21 @@ defmodule Mnth.Roles do
           unquote_splicing(Enum.map(@roles, fn k -> {k, quote(do: String.t())} end))
         }
 
-  @spec ansi_roles(p :: Mnth.Palette.t()) :: %{
+  @doc """
+  Extract the sixteen default ANSI roles from the palette, from `accent_0` to `accent_15`.
+
+  ## Parameters
+  - palette: Palette.
+
+  ## Return
+  A map from ANSI role to color.
+  """
+  @spec ansi_roles(palette :: Mnth.Palette.t()) :: %{
           unquote_splicing(Enum.map(@ansi_roles, fn k -> {k, quote(do: String.t())} end))
         }
-  def ansi_roles(%Mnth.Palette{} = p) do
+  def ansi_roles(%Mnth.Palette{} = palette) do
     @ansi_roles
     |> Enum.with_index()
-    |> Map.new(fn {ansi, i} -> {ansi, Map.fetch!(p, :"accent_#{i}")} end)
+    |> Map.new(fn {ansi, i} -> {ansi, Map.fetch!(palette, :"accent_#{i}")} end)
   end
 end

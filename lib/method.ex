@@ -8,9 +8,22 @@ defmodule Mnth.Method do
   @typedoc "Theme polarity."
   @type pole :: :light | :dark
 
-  @doc "Returns supported polarities."
+  @doc """
+  ## Return
+  Supported polarities.
+  """
   @callback polarities() :: [pole()]
 
-  @doc "Applies the method for a polarity."
-  @callback apply(polarity :: pole(), palette :: Mnth.Palette.t()) :: Mnth.Roles.t()
+  @doc """
+  Applies the method for a polarity.
+
+  ## Parameters
+  - palette: Palette to use.
+  - opts: Options, like polarity.
+
+  ## Return
+  Roles for colors in the palette.
+  """
+  @callback apply(palette :: Mnth.Palette.t(), opts :: keyword()) ::
+              Mnth.Roles.t()
 end

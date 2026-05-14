@@ -1,4 +1,4 @@
-defmodule Mnth.Targets.Ghostty do
+defmodule Mnth.Builtin.Targets.Ghostty do
   @moduledoc """
   Target definition for Ghostty.
   """
@@ -8,7 +8,14 @@ defmodule Mnth.Targets.Ghostty do
   alias Mnth.Roles
 
   @impl true
-  def render(%Roles{} = r, name) do
+  def render(%Roles{} = r, name, opts \\ []) do
+    name =
+      if Keyword.get(opts, :ghostty_naming, false) do
+        name |> String.replace(~r/[-_ ]+/, " ") |> String.capitalize()
+      else
+        name
+      end
+
     layer_lines = [
       "background = #{r.bg_base}",
       "foreground = #{r.ui_base}",
@@ -21,7 +28,7 @@ defmodule Mnth.Targets.Ghostty do
     palette_lines = Enum.map(0..15, fn i -> "palette = #{i}=#{Map.fetch!(r, :"ansi_#{i}")}" end)
 
     %{
-      (name |> String.capitalize()) => ((palette_lines ++ layer_lines) |> Enum.join("\n")) <> "\n"
+      name => ((palette_lines ++ layer_lines) |> Enum.join("\n")) <> "\n"
     }
   end
 end
