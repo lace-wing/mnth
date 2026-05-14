@@ -15,15 +15,10 @@
       pkgs = import nixpkgs {inherit system;};
     in {
       devShells.default = pkgs.mkShell {
-        buildInputs = with pkgs;
-          [
-            elixir
-            erlang
-            fswatch # live-reload
-          ]
-          ++ lib.optionals stdenv.isLinux [
-            inotify-tools # Linux-specific file watching
-          ];
+        buildInputs = with pkgs; [
+          elixir_1_19
+          erlang_28
+        ];
 
         shellHook = ''
           # local directories for Hex and Rebar data
@@ -35,7 +30,7 @@
 
           echo "--- MNTH Environment ---"
           echo "Elixir $(elixir --version | grep 'Elixir' | awk '{print $2}')"
-          echo "Erlang $(erlangal -eval 'io:format("~s", [erlang:system_info(otp_release)]), halt().' -noshell)"
+          echo "Erlang $(erl -eval 'io:format("~s", [erlang:system_info(otp_release)]), halt().' -noshell)"
           echo "Run 'mix deps.get' to begin."
         '';
       };

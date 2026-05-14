@@ -1,0 +1,4 @@
+%{
+  "chameleon": {:hex, :chameleon, "2.5.0", "102dd809f78701875efd0a203730dd64296a1f2d29c8efa6b00cc029d58ff39e", [:mix], [], "hexpm", "f3559827d8b4fe53a44e19e56ae94bedd36a355e0d33e18067b8abc37ec428db"},
+  "color": {:hex, :color, "0.13.0", "068110e5397ac5d3c9f97658282e0f4ab9a32468be6d7a2a91a8804e67b228d7", [:mix], [{:bandit, "~> 1.5", [hex: :bandit, repo: "hexpm", optional: true]}, {:plug, "~> 1.15", [hex: :plug, repo: "hexpm", optional: true]}], "hexpm", "de127946869931d418bac2d82dc29feae1a8f5f729f135922fbccf0059a58ab2"},
+}
