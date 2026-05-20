@@ -7,6 +7,8 @@ defmodule Mnth.Builtin.Targets.Ghostty do
 
   alias Mnth.Roles
 
+  import Color, only: [to_hex: 1]
+
   @impl true
   def render(%Roles{} = r, name, opts \\ []) do
     name =
