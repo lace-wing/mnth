@@ -3,38 +3,21 @@ defmodule Mnth.Palette do
   Palette definition.
   """
 
-  @colors [
+  @gradients [
     :black,
     :dark,
     :somber,
     :dim,
     :soft,
     :light,
-    :white,
-
-    # ~VIM[exe "norm i:accent_0,\<ESC>yy15pf_l\<C-v>14jg\<C-a>\<ESC>"]
-    :accent_0,
-    :accent_1,
-    :accent_2,
-    :accent_3,
-    :accent_4,
-    :accent_5,
-    :accent_6,
-    :accent_7,
-    :accent_8,
-    :accent_9,
-    :accent_10,
-    :accent_11,
-    :accent_12,
-    :accent_13,
-    :accent_14,
-    :accent_15
+    :white
   ]
 
-  defstruct @colors
+  defstruct @gradients ++ [:ansi]
 
   @type t :: %__MODULE__{
-          unquote_splicing(Enum.map(@colors, fn k -> {k, quote(do: String.t())} end))
+          unquote_splicing(Enum.map(@gradients, fn k -> {k, quote(do: Color.t())} end)),
+          ansi: [Color.t()]
         }
 
   @doc """
@@ -84,17 +67,12 @@ defmodule Mnth.Palette do
     defstruct @xterm_colors
 
     @type t :: %__MODULE__{
-            unquote_splicing(Enum.map(@xterm_colors, fn k -> {k, quote(do: String.t())} end))
+            unquote_splicing(Enum.map(@xterm_colors, fn k -> {k, quote(do: Color.t())} end))
           }
 
     @spec to_xterm(p :: Mnth.Palette.t()) :: Xterm.t()
     def to_xterm(%Mnth.Palette{} = p) do
-      fields =
-        @xterm_colors
-        |> Enum.with_index()
-        |> Enum.map(fn {xcolor, i} -> {xcolor, Map.fetch!(p, :"accent_#{i}")} end)
-
-      struct!(Xterm, fields)
+      struct!(Xterm, Enum.zip(@xterm_colors, p.ansi))
     end
   end
 end
