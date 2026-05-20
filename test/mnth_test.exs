@@ -26,9 +26,9 @@ defmodule MnthTest do
         ghostty_naming: true
       )
 
-    assert Mnth.write_dir(res, tmp_dir) == :ok
+    assert Mnth.write(res, tmp_dir) == :ok
 
-    assert File.read!("test/expected/ghostty/Hanekawa") ==
+    assert File.read!("test/expected/ghostty/Hanekawa\ White") ==
              File.read!(Path.join(tmp_dir, "Hanekawa\ White"))
   end
 end

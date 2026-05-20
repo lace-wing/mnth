@@ -24,8 +24,8 @@ defmodule Mnth do
   end
 
   @doc "Write files into a directory."
-  @spec write_dir(res :: Target.render_result(), dir :: Path.t()) :: :ok | {:error, term()}
-  def write_dir(res, dir) do
+  @spec write(res :: Target.render_result(), dir :: Path.t()) :: :ok | {:error, term()}
+  def write(res, dir) do
     if not File.dir?(dir) do
       raise ArgumentError, "#{dir} is not a directory!"
     end

@@ -10,7 +10,7 @@ defmodule Mnth.Theme do
     :name,
     :palette,
     :method,
-    opts: %{}
+    opts: []
   ]
 
   @type t :: %__MODULE__{
