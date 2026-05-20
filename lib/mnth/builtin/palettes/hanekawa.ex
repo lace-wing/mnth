@@ -15,32 +15,38 @@ defmodule Mnth.Builtin.Palettes.Hanekawa do
   @impl true
   def get(),
     do: %Mnth.Palette{
-      black: "#040203",
-      dark: "#090508",
-      # #352832
-      somber: "#2e202a",
-      dim: "#575460",
-      soft: "#e3e2e3",
-      light: "#f9fafe",
-      white: "#fffdfe",
-      accent_0: "#232329",
-      accent_1: "#bf6a73",
-      accent_2: "#768b65",
-      accent_3: "#dabb5a",
-      accent_4: "#6396cc",
-      accent_5: "#8681ad",
-      accent_6: "#deaabb",
-      accent_7: "#e3e2e3",
-      # #5c5866
-      accent_8: "#3b3844",
-      # #c94f5b
-      accent_9: "#bb4045",
-      accent_10: "#9dc1a1",
-      # #f4e9aa
-      accent_11: "#f7ef9f",
-      accent_12: "#b8d6e6",
-      accent_13: "#b48dbb",
-      accent_14: "#e5cae0",
-      accent_15: "#f5f3f5"
+      black: color("#040203"),
+      dark: color("#090508"),
+      somber: color("#2e202a"),
+      dim: color("#575460"),
+      soft: color("#e3e2e3"),
+      light: color("#f9fafe"),
+      white: color("#fffdfe"),
+      ansi:
+        [
+          "#232329",
+          "#bf6a73",
+          "#768b65",
+          "#dabb5a",
+          "#6396cc",
+          "#8681ad",
+          "#deaabb",
+          "#e3e2e3",
+          "#3b3844",
+          "#bb4045",
+          "#9dc1a1",
+          "#f7ef9f",
+          "#b8d6e6",
+          "#b48dbb",
+          "#e5cae0",
+          "#f5f3f5"
+        ]
+        |> Enum.map(&color/1)
     }
+
+  defp color(a) do
+    with({:ok, c} <- Color.new(a)) do
+      c
+    end
+  end
 end

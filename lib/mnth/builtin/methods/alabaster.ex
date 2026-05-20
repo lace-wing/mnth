@@ -8,15 +8,17 @@ defmodule Mnth.Builtin.Methods.Alabaster do
   - <https://github.com/dchinmay2/alabaster.nvim>
   """
 
-  @behaviour Mnth.Method
+  alias Mnth.Palette
+  alias Mnth.Roles
+  alias Mnth.Method
 
-  alias Mnth.{Palette, Roles, Method}
+  @behaviour Method
 
   @impl true
   def polarities, do: [:dark, :light]
 
   @impl true
-  @spec apply(Palette.t(), [polarity: Method.pole()]) :: Roles.t()
+  @spec apply(Palette.t(), polarity: Method.pole()) :: Roles.t()
   def apply(%Palette{} = p, opts \\ []) do
     opts
     |> Keyword.get(:polarity, :dark)
@@ -50,7 +52,7 @@ defmodule Mnth.Builtin.Methods.Alabaster do
 
   defp common_roles(%Palette{} = p),
     do:
-      [diag_roles(p), sem_roles(p), Roles.ansi_roles(p)]
+      [diag_roles(p), sem_roles(p), %{ansi: p.ansi}]
       |> Enum.reduce(fn cur, acc -> merge_nonnil(cur, acc) end)
 
   defp diag_roles(%Palette{} = p) do

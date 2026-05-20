@@ -5,8 +5,10 @@ defmodule Mnth.Target do
 
   @type t :: module()
 
-  @typedoc "Render result."
-  @type render_result :: %{
+  @typedoc """
+  Flat map from path to content.
+  """
+  @type file_map :: %{
           optional(Path.t()) => String.t()
         }
 
@@ -21,5 +23,5 @@ defmodule Mnth.Target do
   ## Returns
   A map from relative file path to file content.
   """
-  @callback render(roles :: Mnth.Roles.t(), name :: String.t(), opts :: keyword()) :: render_result()
+  @callback render(roles :: Mnth.Roles.t(), name :: String.t(), opts :: keyword()) :: file_map()
 end

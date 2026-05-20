@@ -17,18 +17,25 @@ defmodule Mnth.Builtin.Targets.Ghostty do
       end
 
     layer_lines = [
-      "background = #{r.bg_base}",
-      "foreground = #{r.ui_base}",
-      "cursor-color = #{r.ui_popped}",
-      "cursor-text = #{r.bg_base}",
-      "selection-background = #{r.bg_lifted}",
-      "selection-foreground = #{r.ui_lifted}"
+      "background = #{to_hex(r.bg_base)}",
+      "foreground = #{to_hex(r.ui_base)}",
+      "cursor-color = #{to_hex(r.ui_popped)}",
+      "cursor-text = #{to_hex(r.bg_base)}",
+      "selection-background = #{to_hex(r.bg_lifted)}",
+      "selection-foreground = #{to_hex(r.ui_lifted)}"
     ]
 
-    palette_lines = Enum.map(0..15, fn i -> "palette = #{i}=#{Map.fetch!(r, :"ansi_#{i}")}" end)
+    palette_lines =
+      Enum.with_index(r.ansi) |> Enum.map(fn {c, i} -> "palette = #{i}=#{to_hex(c)}" end)
 
     %{
       name => ((palette_lines ++ layer_lines) |> Enum.join("\n")) <> "\n"
     }
+  end
+
+  defp to_hex(c) do
+    with {:ok, c} <- Color.new(c) do
+      Color.to_hex(%{c | alpha: nil})
+    end
   end
 end
