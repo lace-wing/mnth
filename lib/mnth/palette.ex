@@ -21,7 +21,7 @@ defmodule Mnth.Palette do
         }
 
   @doc """
-  ## Returns
+  ## Return
   The palette.
   """
   @callback get() :: __MODULE__.t()
@@ -70,9 +70,18 @@ defmodule Mnth.Palette do
             unquote_splicing(Enum.map(@xterm_colors, fn k -> {k, quote(do: Color.t())} end))
           }
 
-    @spec to_xterm(p :: Mnth.Palette.t()) :: Xterm.t()
-    def to_xterm(%Mnth.Palette{} = p) do
-      struct!(Xterm, Enum.zip(@xterm_colors, p.ansi))
+    @doc """
+    Map 16 ANSI colors to XTERM convention colors.
+
+    ## Parameters
+    - ansi_colors: The ANSI colors.
+
+    ## Return
+    The XTERM palette.
+    """
+    @spec to_xterm(ansi_colors :: [Color.t()]) :: Xterm.t()
+    def to_xterm(ansi_colors) do
+      struct!(Xterm, Enum.zip(@xterm_colors, ansi_colors))
     end
   end
 end

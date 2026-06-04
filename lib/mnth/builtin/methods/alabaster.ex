@@ -20,10 +20,15 @@ defmodule Mnth.Builtin.Methods.Alabaster do
   @impl true
   @spec apply(Palette.t(), polarity: Method.pole()) :: Roles.t()
   def apply(%Palette{} = p, opts \\ []) do
-    opts
-    |> Keyword.get(:polarity, :dark)
-    |> ui_roles(p)
-    |> merge_nonnil(common_roles(p))
+    polarity = Keyword.get(opts, :polarity, :dark)
+
+    [
+      ui_roles(polarity, p),
+      diag_roles(p),
+      sem_roles(polarity, p),
+      %{ansi: p.ansi}
+    ]
+    |> Enum.reduce(fn cur, acc -> merge_nonnil(cur, acc) end)
   end
 
   defp ui_roles(:dark, %Palette{} = p) do
@@ -50,34 +55,45 @@ defmodule Mnth.Builtin.Methods.Alabaster do
     }
   end
 
-  defp common_roles(%Palette{} = p),
-    do:
-      [diag_roles(p), sem_roles(p), %{ansi: p.ansi}]
-      |> Enum.reduce(fn cur, acc -> merge_nonnil(cur, acc) end)
-
-  defp diag_roles(%Palette{} = p) do
-    xp = Palette.Xterm.to_xterm(p)
+  defp sem_roles(:dark, %Palette{} = p) do
+    xp = Palette.Xterm.to_xterm(p.ansi)
 
     %Roles{
-      diag_hint: xp.white,
-      diag_info: xp.br_white,
-      diag_warn: xp.br_yellow,
-      diag_error: xp.br_red
+      sem_keyword: p.dim,
+      sem_type: p.soft,
+      sem_func: p.light,
+      sem_const: p.soft,
+      sem_string: xp.cyan,
+      sem_regex: xp.br_cyan,
+      sem_comment: xp.br_yellow
     }
   end
 
-  defp sem_roles(%Palette{} = p) do
-    xp = Palette.Xterm.to_xterm(p)
+  defp sem_roles(:light, %Palette{} = p) do
+    xp = Palette.Xterm.to_xterm(p.ansi)
 
     %Roles{
-      sem_main: p.soft,
-      sem_alt: xp.white,
-      sem_comment: xp.br_yellow,
-      sem_const: xp.magenta,
+      sem_keyword: p.dim,
+      sem_type: p.somber,
+      sem_func: p.dark,
+      sem_const: p.somber,
       sem_string: xp.cyan,
       sem_regex: xp.br_cyan,
-      sem_keyword: p.dim,
-      sem_func: p.light
+      sem_comment: xp.yellow
+    }
+  end
+
+  defp diag_roles(%Palette{} = p) do
+    xp = Palette.Xterm.to_xterm(p.ansi)
+
+    %Roles{
+      diag_info: xp.white,
+      diag_hint: xp.blue,
+      diag_good: xp.green,
+      diag_great: xp.br_green,
+      diag_warn: xp.yellow,
+      diag_error: xp.red,
+      diag_fatal: xp.br_red
     }
   end
 

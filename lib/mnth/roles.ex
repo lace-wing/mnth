@@ -4,7 +4,7 @@ defmodule Mnth.Roles do
   """
 
   @roles [
-    # basic gradients
+    # basic layers
     :bg_muted,
     :bg_base,
     :bg_lifted,
@@ -14,15 +14,17 @@ defmodule Mnth.Roles do
     :ui_popped,
 
     # dialog
-    :diag_hint,
     :diag_info,
+    :diag_hint,
+    :diag_good,
+    :diag_great,
     :diag_warn,
     :diag_error,
+    :diag_fatal,
 
     # semantics
-    :sem_main,
-    :sem_alt,
     :sem_keyword,
+    :sem_type,
     :sem_func,
     :sem_string,
     :sem_const,

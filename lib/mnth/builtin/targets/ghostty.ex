@@ -7,8 +7,6 @@ defmodule Mnth.Builtin.Targets.Ghostty do
 
   alias Mnth.Roles
 
-  import Color, only: [to_hex: 1]
-
   @impl true
   def render(%Roles{} = r, name, opts \\ []) do
     name =
@@ -24,7 +22,13 @@ defmodule Mnth.Builtin.Targets.Ghostty do
       "cursor-color = #{to_hex(r.ui_popped)}",
       "cursor-text = #{to_hex(r.bg_base)}",
       "selection-background = #{to_hex(r.bg_lifted)}",
-      "selection-foreground = #{to_hex(r.ui_lifted)}"
+      "selection-foreground = #{to_hex(r.ui_lifted)}",
+      "search-background = #{to_hex(r.diag_good)}",
+      "search-foreground = #{to_hex(r.bg_base)}",
+      "search-selected-background = #{to_hex(r.diag_great)}",
+      "search-selected-foreground = #{to_hex(r.bg_base)}",
+      "unfocused-split-fill = #{to_hex(r.bg_base)}",
+      "split-divider-color = #{to_hex(r.diag_hint)}"
     ]
 
     palette_lines =
@@ -35,6 +39,7 @@ defmodule Mnth.Builtin.Targets.Ghostty do
     }
   end
 
+  # Custom to_hex to strip the alpha channel.
   defp to_hex(c) do
     with {:ok, c} <- Color.new(c) do
       Color.to_hex(%{c | alpha: nil})
