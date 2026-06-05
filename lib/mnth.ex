@@ -17,14 +17,14 @@ defmodule Mnth do
   A map from relative file paths to their content.
   """
   @spec build(theme :: Theme.t(), target :: Target.t(), opts :: keyword()) ::
-          Target.render_result()
+          Target.file_map()
   def build(theme, target, opts) do
     %Theme{name: name, palette: palette, method: method, opts: method_opts} = theme
     method.apply(palette, method_opts) |> target.render(name, opts)
   end
 
   @doc "Write files into a directory."
-  @spec write(res :: Target.render_result(), dir :: Path.t()) :: :ok | {:error, term()}
+  @spec write(res :: Target.file_map(), dir :: Path.t()) :: :ok | {:error, term()}
   def write(res, dir) do
     if not File.dir?(dir) do
       raise ArgumentError, "#{dir} is not a directory!"
