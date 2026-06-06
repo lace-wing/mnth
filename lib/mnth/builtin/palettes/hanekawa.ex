@@ -16,11 +16,11 @@ defmodule Mnth.Builtin.Palettes.Hanekawa do
   def get(),
     do: %Mnth.Palette{
       black: color("#040203"),
-      dark: color("#090508"),
+      dark: color("#151514"),
       somber: color("#2e202a"),
       dim: color("#575460"),
       soft: color("#e3e2e3"),
-      light: color("#f9fafe"),
+      light: color("#e8f5ff"),
       white: color("#fffdfe"),
       ansi:
         [

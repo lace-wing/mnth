@@ -11,7 +11,10 @@ defmodule Mnth.Builtin.Targets.Ghostty do
   def render(%Roles{} = r, name, opts \\ []) do
     name =
       if Keyword.get(opts, :ghostty_naming, false) do
-        name |> String.replace(~r/[-_ ]+/, " ") |> String.capitalize()
+        name
+        |> String.split(~r/[-_ ]+/)
+        |> Enum.map(&String.capitalize(&1))
+        |> Enum.join(" ")
       else
         name
       end

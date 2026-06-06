@@ -20,15 +20,25 @@ defmodule MnthTest do
     %{tmp_dir: tmp_dir}
   end
 
-  test "build theme from Theme", %{tmp_dir: tmp_dir} do
-    res =
+  test "build Hanekawa for Ghostty", %{tmp_dir: tmp_dir} do
+    hw =
       Mnth.build(Builtin.Themes.HanekawaWhite.get(), Builtin.Targets.Ghostty,
         ghostty_naming: true
       )
 
-    assert Mnth.write(res, tmp_dir) == :ok
+    hb =
+      Mnth.build(Builtin.Themes.HanekawaBlack.get(), Builtin.Targets.Ghostty,
+        ghostty_naming: true
+      )
+
+    assert Mnth.write(hw, tmp_dir) == :ok
+
+    assert Mnth.write(hb, tmp_dir) == :ok
 
     assert File.read!("test/expected/ghostty/Hanekawa\ White") ==
              File.read!(Path.join(tmp_dir, "Hanekawa\ White"))
+
+    assert File.read!("test/expected/ghostty/Hanekawa\ Black") ==
+             File.read!(Path.join(tmp_dir, "Hanekawa\ Black"))
   end
 end

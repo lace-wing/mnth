@@ -24,7 +24,7 @@ defmodule Mnth.Builtin.Methods.Alabaster do
 
     [
       ui_roles(polarity, p),
-      diag_roles(p),
+      diag_roles(polarity, p),
       sem_roles(polarity, p),
       %{ansi: p.ansi}
     ]
@@ -83,11 +83,25 @@ defmodule Mnth.Builtin.Methods.Alabaster do
     }
   end
 
-  defp diag_roles(%Palette{} = p) do
+  defp diag_roles(:dark, %Palette{} = p) do
     xp = Palette.Xterm.to_xterm(p.ansi)
 
     %Roles{
       diag_info: xp.white,
+      diag_hint: xp.br_blue,
+      diag_good: xp.green,
+      diag_great: xp.br_green,
+      diag_warn: xp.br_yellow,
+      diag_error: xp.red,
+      diag_fatal: xp.br_red
+    }
+  end
+
+  defp diag_roles(:light, %Palette{} = p) do
+    xp = Palette.Xterm.to_xterm(p.ansi)
+
+    %Roles{
+      diag_info: xp.black,
       diag_hint: xp.blue,
       diag_good: xp.green,
       diag_great: xp.br_green,

@@ -18,7 +18,7 @@ defmodule Mnth do
   """
   @spec build(theme :: Theme.t(), target :: Target.t(), opts :: keyword()) ::
           Target.file_map()
-  def build(theme, target, opts) do
+  def build(theme, target, opts \\ []) do
     %Theme{name: name, palette: palette, method: method, opts: method_opts} = theme
     method.apply(palette, method_opts) |> target.render(name, opts)
   end
