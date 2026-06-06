@@ -22,95 +22,99 @@ defmodule Mnth.Builtin.Methods.Alabaster do
   def apply(%Palette{} = p, opts \\ []) do
     polarity = Keyword.get(opts, :polarity, :dark)
 
-    [
-      ui_roles(polarity, p),
-      diag_roles(polarity, p),
-      sem_roles(polarity, p),
-      %{ansi: p.ansi}
-    ]
-    |> Enum.reduce(fn cur, acc -> merge_nonnil(cur, acc) end)
-  end
-
-  defp ui_roles(:dark, %Palette{} = p) do
-    %Roles{
-      bg_muted: p.black,
-      bg_base: p.dark,
-      bg_lifted: p.somber,
-      ui_muted: p.dim,
-      ui_base: p.soft,
-      ui_lifted: p.light,
-      ui_popped: p.white
+    %{
+      roles(polarity, p)
+      | ansi: p.ansi
     }
   end
 
-  defp ui_roles(:light, %Palette{} = p) do
-    %Roles{
-      bg_muted: p.soft,
-      bg_base: p.light,
-      bg_lifted: p.white,
-      ui_muted: p.dim,
-      ui_base: p.somber,
-      ui_lifted: p.dark,
-      ui_popped: p.black
-    }
-  end
-
-  defp sem_roles(:dark, %Palette{} = p) do
+  defp roles(:dark, %Palette{} = p) do
     xp = Palette.Xterm.to_xterm(p.ansi)
 
+    muted = %{
+      bg: p.black,
+      fg: p.dim
+    }
+
+    base = %{
+      bg: p.dark,
+      fg: p.soft
+    }
+
+    lifted = %{
+      bg: p.somber,
+      fg: p.light
+    }
+
+    {:ok, warn} = Color.Contrast.pick_contrasting(base.bg, [xp.yellow, xp.br_yellow])
+
     %Roles{
-      sem_keyword: p.dim,
-      sem_type: p.soft,
-      sem_func: p.light,
-      sem_const: p.soft,
+      bg_muted: muted.bg,
+      bg_base: base.bg,
+      bg_lifted: lifted.bg,
+      ui_muted: muted.fg,
+      ui_base: base.fg,
+      ui_lifted: lifted.fg,
+      ui_popped: p.white,
+      sem_keyword: muted.fg,
+      sem_type: base.fg,
+      sem_func: lifted.fg,
+      sem_const: base.fg,
       sem_string: xp.cyan,
       sem_regex: xp.br_cyan,
-      sem_comment: xp.br_yellow
-    }
-  end
-
-  defp sem_roles(:light, %Palette{} = p) do
-    xp = Palette.Xterm.to_xterm(p.ansi)
-
-    %Roles{
-      sem_keyword: p.dim,
-      sem_type: p.somber,
-      sem_func: p.dark,
-      sem_const: p.somber,
-      sem_string: xp.cyan,
-      sem_regex: xp.br_cyan,
-      sem_comment: xp.yellow
-    }
-  end
-
-  defp diag_roles(:dark, %Palette{} = p) do
-    xp = Palette.Xterm.to_xterm(p.ansi)
-
-    %Roles{
+      sem_comment: warn,
       diag_info: xp.white,
       diag_hint: xp.br_blue,
       diag_good: xp.green,
       diag_great: xp.br_green,
-      diag_warn: xp.br_yellow,
+      diag_warn: warn,
       diag_error: xp.red,
       diag_fatal: xp.br_red
     }
   end
 
-  defp diag_roles(:light, %Palette{} = p) do
+  defp roles(:light, %Palette{} = p) do
     xp = Palette.Xterm.to_xterm(p.ansi)
 
+    muted = %{
+      bg: p.soft,
+      fg: p.dim
+    }
+
+    base = %{
+      bg: p.light,
+      fg: p.somber
+    }
+
+    lifted = %{
+      bg: p.white,
+      fg: p.dark
+    }
+
+    {:ok, warn} = Color.Contrast.pick_contrasting(base.bg, [xp.yellow, xp.br_yellow])
+
     %Roles{
+      bg_muted: muted.bg,
+      bg_base: base.bg,
+      bg_lifted: lifted.bg,
+      ui_muted: muted.fg,
+      ui_base: base.fg,
+      ui_lifted: lifted.fg,
+      ui_popped: p.black,
+      sem_keyword: muted.fg,
+      sem_type: base.fg,
+      sem_func: lifted.fg,
+      sem_const: base.fg,
+      sem_string: xp.cyan,
+      sem_regex: xp.br_cyan,
+      sem_comment: warn,
       diag_info: xp.black,
       diag_hint: xp.blue,
       diag_good: xp.green,
       diag_great: xp.br_green,
-      diag_warn: xp.yellow,
+      diag_warn: warn,
       diag_error: xp.red,
       diag_fatal: xp.br_red
     }
   end
-
-  defp merge_nonnil(map1, map2),
-    do: Map.merge(map1, map2, fn _key, val1, val2 -> val1 || val2 end)
 end
