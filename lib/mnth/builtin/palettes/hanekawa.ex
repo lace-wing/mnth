@@ -13,7 +13,7 @@ defmodule Mnth.Builtin.Palettes.Hanekawa do
   @behaviour Mnth.Palette
 
   @impl true
-  def get(),
+  def get!(),
     do: %Mnth.Palette{
       black: color("#040203"),
       dark: color("#151514"),

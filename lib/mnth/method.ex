@@ -3,8 +3,6 @@ defmodule Mnth.Method do
   Coloring method definition.
   """
 
-  @type t :: module()
-
   @typedoc "Theme polarity."
   @type pole :: :light | :dark
 
@@ -24,6 +22,6 @@ defmodule Mnth.Method do
   ## Return
   Roles for colors in the palette.
   """
-  @callback apply(palette :: Mnth.Palette.t(), opts :: keyword()) ::
+  @callback apply!(palette :: Mnth.Palette.t(), opts :: keyword()) ::
               Mnth.Roles.t()
 end

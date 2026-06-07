@@ -6,10 +6,10 @@ defmodule Mnth.Builtin.Themes.HanekawaBlack do
   @behaviour Mnth.Theme
 
   @impl true
-  def get(),
+  def get!(),
     do: %Mnth.Theme{
       name: "hanekawa-black",
-      palette: Mnth.Builtin.Palettes.Hanekawa.get(),
+      palette: Mnth.Builtin.Palettes.Hanekawa,
       method: Mnth.Builtin.Methods.Alabaster,
       opts: [polarity: :light]
     }

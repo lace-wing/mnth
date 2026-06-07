@@ -22,14 +22,10 @@ defmodule MnthTest do
 
   test "build Hanekawa for Ghostty", %{tmp_dir: tmp_dir} do
     hw =
-      Mnth.build(Builtin.Themes.HanekawaWhite.get(), Builtin.Targets.Ghostty,
-        ghostty_naming: true
-      )
+      Mnth.build(Builtin.Themes.HanekawaWhite, Builtin.Targets.Ghostty, ghostty_naming: true)
 
     hb =
-      Mnth.build(Builtin.Themes.HanekawaBlack.get(), Builtin.Targets.Ghostty,
-        ghostty_naming: true
-      )
+      Mnth.build(Builtin.Themes.HanekawaBlack, Builtin.Targets.Ghostty, ghostty_naming: true)
 
     assert Mnth.write(hw, tmp_dir) == :ok
 

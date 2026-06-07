@@ -23,5 +23,5 @@ defmodule Mnth.Target do
   ## Returns
   A map from relative file path to file content.
   """
-  @callback render(roles :: Mnth.Roles.t(), name :: String.t(), opts :: keyword()) :: file_map()
+  @callback render!(roles :: Mnth.Roles.t(), name :: String.t(), opts :: keyword()) :: file_map()
 end

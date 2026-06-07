@@ -8,7 +8,7 @@ defmodule Mnth.Builtin.Targets.Ghostty do
   alias Mnth.Roles
 
   @impl true
-  def render(%Roles{} = r, name, opts \\ []) do
+  def render!(%Roles{} = r, name, opts \\ []) do
     name =
       if Keyword.get(opts, :ghostty_naming, false) do
         name

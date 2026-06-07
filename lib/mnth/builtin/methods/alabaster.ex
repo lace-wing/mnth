@@ -18,8 +18,7 @@ defmodule Mnth.Builtin.Methods.Alabaster do
   def polarities, do: [:dark, :light]
 
   @impl true
-  @spec apply(Palette.t(), polarity: Method.pole()) :: Roles.t()
-  def apply(%Palette{} = p, opts \\ []),
+  def apply!(%Palette{} = p, opts \\ []),
     do: roles(p, Palette.Xterm.to_xterm(p.ansi), layers(Keyword.get(opts, :polarity, :dark), p))
 
   defp layers(:dark, %Palette{} = p) do
