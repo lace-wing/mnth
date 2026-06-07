@@ -19,33 +19,30 @@ defmodule Mnth.Builtin.Methods.Alabaster do
 
   @impl true
   @spec apply(Palette.t(), polarity: Method.pole()) :: Roles.t()
-  def apply(%Palette{} = p, opts \\ []) do
-    polarity = Keyword.get(opts, :polarity, :dark)
+  def apply(%Palette{} = p, opts \\ []),
+    do: roles(p, Palette.Xterm.to_xterm(p.ansi), layers(Keyword.get(opts, :polarity, :dark), p))
 
-    %{
-      roles(polarity, p)
-      | ansi: p.ansi
-    }
+  defp layers(:dark, %Palette{} = p) do
+    muted = %{bg: p.black, fg: p.dim}
+    base = %{bg: p.dark, fg: p.soft}
+    lifted = %{bg: p.somber, fg: p.light}
+    popped = %{bg: nil, fg: p.white}
+
+    {muted, base, lifted, popped}
   end
 
-  defp roles(:dark, %Palette{} = p) do
-    xp = Palette.Xterm.to_xterm(p.ansi)
+  defp layers(:light, %Palette{} = p) do
+    muted = %{bg: p.soft, fg: p.dim}
+    base = %{bg: p.light, fg: p.somber}
+    lifted = %{bg: p.white, fg: p.dark}
+    popped = %{bg: nil, fg: p.black}
 
-    muted = %{
-      bg: p.black,
-      fg: p.dim
-    }
+    {muted, base, lifted, popped}
+  end
 
-    base = %{
-      bg: p.dark,
-      fg: p.soft
-    }
-
-    lifted = %{
-      bg: p.somber,
-      fg: p.light
-    }
-
+  defp roles(%Palette{} = p, %Palette.Xterm{} = xp, {muted, base, lifted, popped}) do
+    {:ok, info} = Color.Contrast.pick_contrasting(base.bg, [xp.white, xp.black])
+    {:ok, hint} = Color.Contrast.pick_contrasting(base.bg, [xp.blue, xp.br_blue])
     {:ok, warn} = Color.Contrast.pick_contrasting(base.bg, [xp.yellow, xp.br_yellow])
 
     %Roles{
@@ -55,7 +52,7 @@ defmodule Mnth.Builtin.Methods.Alabaster do
       ui_muted: muted.fg,
       ui_base: base.fg,
       ui_lifted: lifted.fg,
-      ui_popped: p.white,
+      ui_popped: popped.fg,
       sem_keyword: muted.fg,
       sem_type: base.fg,
       sem_func: lifted.fg,
@@ -63,58 +60,14 @@ defmodule Mnth.Builtin.Methods.Alabaster do
       sem_string: xp.cyan,
       sem_regex: xp.br_cyan,
       sem_comment: warn,
-      diag_info: xp.white,
-      diag_hint: xp.br_blue,
+      diag_info: info,
+      diag_hint: hint,
       diag_good: xp.green,
       diag_great: xp.br_green,
       diag_warn: warn,
       diag_error: xp.red,
-      diag_fatal: xp.br_red
-    }
-  end
-
-  defp roles(:light, %Palette{} = p) do
-    xp = Palette.Xterm.to_xterm(p.ansi)
-
-    muted = %{
-      bg: p.soft,
-      fg: p.dim
-    }
-
-    base = %{
-      bg: p.light,
-      fg: p.somber
-    }
-
-    lifted = %{
-      bg: p.white,
-      fg: p.dark
-    }
-
-    {:ok, warn} = Color.Contrast.pick_contrasting(base.bg, [xp.yellow, xp.br_yellow])
-
-    %Roles{
-      bg_muted: muted.bg,
-      bg_base: base.bg,
-      bg_lifted: lifted.bg,
-      ui_muted: muted.fg,
-      ui_base: base.fg,
-      ui_lifted: lifted.fg,
-      ui_popped: p.black,
-      sem_keyword: muted.fg,
-      sem_type: base.fg,
-      sem_func: lifted.fg,
-      sem_const: base.fg,
-      sem_string: xp.cyan,
-      sem_regex: xp.br_cyan,
-      sem_comment: warn,
-      diag_info: xp.black,
-      diag_hint: xp.blue,
-      diag_good: xp.green,
-      diag_great: xp.br_green,
-      diag_warn: warn,
-      diag_error: xp.red,
-      diag_fatal: xp.br_red
+      diag_fatal: xp.br_red,
+      ansi: p.ansi
     }
   end
 end
