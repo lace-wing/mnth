@@ -21,10 +21,10 @@ defmodule MnthTest do
   end
 
   test "build Hanekawa for Ghostty", %{tmp_dir: tmp_dir} do
-    hw =
+    {:ok, hw} =
       Mnth.build(Builtin.Themes.HanekawaWhite, Builtin.Targets.Ghostty, ghostty_naming: true)
 
-    hb =
+    {:ok, hb} =
       Mnth.build(Builtin.Themes.HanekawaBlack, Builtin.Targets.Ghostty, ghostty_naming: true)
 
     assert Mnth.write(hw, tmp_dir) == :ok

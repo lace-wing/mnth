@@ -1,6 +1,6 @@
 defmodule Mnth do
   @moduledoc """
-  Documentation for `Mnth`.
+  MNTH wrapping functions.
   """
 
   alias Mnth.Theme
@@ -11,7 +11,7 @@ defmodule Mnth do
 
   ## Parameters
   - theme: Theme to use.
-  - opts: Options for `target.render`.
+  - opts: Options for `target.render`
 
   ## Returns
   A map from relative file paths to their content.
@@ -21,7 +21,10 @@ defmodule Mnth do
   def build(theme, target, opts \\ []) do
     with {:ok, t} <- Theme.resolve(theme),
          {:ok, target} <- get_mod(target, Target) do
-      t.method.apply!(t.palette.get!(), t.opts) |> target.render!(t.name, opts)
+      {
+        :ok,
+        t.method.apply!(t.palette.get!(), t.opts) |> target.render!(t.name, opts)
+      }
     end
   end
 
