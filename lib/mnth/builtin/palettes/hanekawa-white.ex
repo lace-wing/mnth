@@ -44,7 +44,19 @@ defmodule Mnth.Builtin.Palettes.HanekawaWhite do
         |> Enum.map(&color/1)
     }
 
-  defp color(a) do
+  def shades() do
+    %Mnth.Palette{
+      black: color("#040203"),
+      dark: color("#151514"),
+      somber: color("#2e202a"),
+      dim: color("#575460"),
+      soft: color("#e3e2e3"),
+      light: color("#e8f5ff"),
+      white: color("#fffdfe")
+    }
+  end
+
+  def color(a) do
     with({:ok, c} <- Color.new(a)) do
       c
     end
