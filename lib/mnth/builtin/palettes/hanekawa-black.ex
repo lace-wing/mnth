@@ -1,6 +1,6 @@
-defmodule Mnth.Builtin.Palettes.Hanekawa do
+defmodule Mnth.Builtin.Palettes.HanekawaBlack do
   @moduledoc """
-  The Hanekawa palette.
+  The Hanekawa Black palette.
 
   # Source
   Picked from:
@@ -24,6 +24,7 @@ defmodule Mnth.Builtin.Palettes.Hanekawa do
       white: color("#fffdfe"),
       ansi:
         [
+          # TODO change colors
           "#232329",
           "#bf6a73",
           "#768b65",

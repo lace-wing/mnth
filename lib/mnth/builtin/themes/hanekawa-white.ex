@@ -9,7 +9,7 @@ defmodule Mnth.Builtin.Themes.HanekawaWhite do
   def get!(),
     do: %Mnth.Theme{
       name: "hanekawa-white",
-      palette: Mnth.Builtin.Palettes.Hanekawa,
+      palette: Mnth.Builtin.Palettes.HanekawaWhite,
       method: Mnth.Builtin.Methods.Alabaster,
       opts: [polarity: :dark]
     }
